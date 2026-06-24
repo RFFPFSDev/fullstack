@@ -94,6 +94,8 @@ const displayPrice = (price / 100).toFixed(2);
 
 ### Product Controller
 
+- GET Products/{searchterm} (paginated)
+
 - POST Product
 
 ```json
@@ -118,6 +120,8 @@ const displayPrice = (price / 100).toFixed(2);
 - DELETE PRODUCT/{id}
 
 ### Product Inventory
+
+- GET Inventory/{searchterm} (paginated)
 
 - POST Inventory
 
@@ -147,6 +151,97 @@ const displayPrice = (price / 100).toFixed(2);
 ## Archicteture
 
 ## React
+
+```
+ProductPage
+    ├── ProductList
+    └── ProductForm
+```
+
+### State
+
+Data owned and managed by a component
+
+```json
+function ProductPage() {
+  const [products, setProducts] = useState([]);
+
+  return <ProductList products={products} />;
+}
+```
+
+### Props
+
+```json
+function ProductList({ products }) {
+  return (
+    <>
+      {products.map(product => (
+        <div key={product.id}>{product.name}</div>
+      ))}
+    </>
+  );
+}
+```
+
+### Hook useState
+
+```json
+function ProductForm() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
+
+  return (
+    <>
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <input
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+
+      <input
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+      />
+    </>
+  );
+}
+```
+
+### Hook useEffect
+
+Load Products on Page Load
+
+```json
+const [products, setProducts] = useState([]);
+
+useEffect(() => {
+  fetchProducts();
+}, []);
+
+const fetchProducts = async () => {
+  const response = await fetch("/api/products");
+  const data = await response.json();
+
+  setProducts(data);
+};
+```
+
+### Hook useMemo
+
+- TO DO
+
+### Hook useCallback
+
+- TO DO
+### Hook useRef
+
+- TO DO
 
 ## Angular
 
